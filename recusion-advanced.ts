@@ -8,8 +8,27 @@
 // console.log(threeSum([0, 1, 1])); // Output: []
 // console.log(threeSum([0, 0, 0])); // Output: [[0, 0, 0]]
 
-function threeSum(arr) {
-  // Your code here
+function threeSum(arr: number[]) {
+  if (arr.length < 3) {
+    return [];
+  }
+  const lastElm = arr.pop();
+  if (!lastElm) {
+    return [];
+  }
+
+  const twoSumValue = (ary: number[], value: number) => {
+    let ans: [number, number, number][] = [];
+    for (const val of ary) {
+      const third = value + val;
+      if (ary.includes(third)) {
+        ans.push([val, third, value])
+      }
+    }
+    return ans;
+  }
+
+  return [...twoSumValue(arr, lastElm), ...threeSum(arr)]
 }
 
 // 10. Rock, Paper, Scissors (Generate All Possible Outcomes)
@@ -28,5 +47,19 @@ function threeSum(arr) {
 // Expected Output: [["rock"], ["paper"], ["scissors"]]
 
 function rockPaperScissors(n) {
-  // Your code here
+  const rps = [["rock"], ["paper"], ["scissors"]];
+
+  if (n === 1) {
+    return rps;
+  }
+
+  const extender = (play: string, playList: string[][]): string[][] => {
+    return playList.map(game => [...game, play]);
+  }
+
+  let ans: string[][] = [];
+  for (const play of rps) {
+    ans = [...ans, ...extender(play[0], rockPaperScissors(n - 1))]
+  }
+  return ans;
 }
