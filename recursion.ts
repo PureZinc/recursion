@@ -7,8 +7,11 @@
 // console.log(factorial(5)); // Output: 120
 // console.log(factorial(0)); // Output: 1
 
-function factorial(n) {
-  // Your code here
+function factorial(n: number) {
+  if (n === 0) {
+    return 1;
+  }
+  return n * factorial(n - 1);
 }
 
 // 2. Sum of an Array
@@ -19,8 +22,12 @@ function factorial(n) {
 // console.log(sumArray([])); // Output: 0
 // console.log(sumArray([5])); // Output: 5
 
-function sumArray(arr) {
-  // Your code here
+function sumArray(arr: Array<number>) {
+  if (arr.length === 0) {
+    return 0
+  }
+  const lastElm = arr.pop();
+  return lastElm + sumArray(arr);
 }
 
 // 3. Reverse a String
@@ -32,7 +39,12 @@ function sumArray(arr) {
 // console.log(reverseString("abc")); // Output: "cba"
 
 function reverseString(str) {
-  // Your code here
+  if (str.length <= 1) {
+    return str;
+  }
+  const [first, last] = [str[0], str[str.length - 1]];
+  const split = str.slice(1, -1);
+  return `${last}${reverseString(split)}${first}`;
 }
 
 // 4. Check if a String is a Palindrome
@@ -43,8 +55,13 @@ function reverseString(str) {
 // console.log(isPalindrome("hello"));   // Output: false
 // console.log(isPalindrome("a"));       // Output: true
 
-function isPalindrome(str) {
-  // Your code here
+function isPalindrome(str: string) {
+  if (str.length <= 1) {
+    return true;
+  }
+  const lastI = str.length - 1
+  if (str[0] !== str[lastI]) return false;
+  return isPalindrome(str.slice(1, -1));
 }
 
 // 5. Compute the N-th Fibonacci Number
@@ -57,8 +74,15 @@ function isPalindrome(str) {
 // console.log(fibonacci(0)); // Output: 0
 // console.log(fibonacci(1)); // Output: 1
 
-function fibonacci(n) {
-  // Your code here
+function fibonacci(n: number) {
+  switch (n) {
+    case 0:
+      return 0
+    case 1:
+      return 1
+    default:
+      return fibonacci(n - 1) + fibonacci(n - 2)
+  }
 }
 
 // 6. Flatten a Nested Array
@@ -69,8 +93,16 @@ function fibonacci(n) {
 // console.log(flattenArray([1, [2, [3, [4, [5]]]]])); // Output: [1, 2, 3, 4, 5]
 // console.log(flattenArray([])); // Output: []
 
-function flattenArray(arr) {
-  // Your code here
+function flattenArray(arr: (number | number[])[]): number[] {
+  let ans: number[] = [];
+  for (const elm of arr) {
+    if (Array.isArray(elm)) {
+      ans = [...ans, ...flattenArray(elm)]
+    } else {
+      ans.push(elm);
+    }
+  }
+  return ans;
 }
 
 // 7. Count the Number of Occurrences of a Value in an Array
@@ -81,8 +113,13 @@ function flattenArray(arr) {
 // console.log(countOccurrences([1, 1, 1, 1, 1], 1)); // Output: 5
 // console.log(countOccurrences([1, 2, 3, 4, 5], 6)); // Output: 0
 
-function countOccurrences(arr, value) {
-  // Your code here
+function countOccurrences(arr: number[], value: number): number {
+  if (arr.length === 0) {
+    return 0
+  }
+  const lastElm = arr.pop();
+  let adder = (lastElm === value) ? 1 : 0;
+  return adder + countOccurrences(arr, value);
 }
 
 // 8. Find the Maximum Number in an Array
@@ -93,8 +130,11 @@ function countOccurrences(arr, value) {
 // console.log(findMax([7, 7, 7, 7])); // Output: 7
 // console.log(findMax([-1, -2, -3, -4])); // Output: -1
 
-function findMax(arr) {
-  // Your code here
+function findMax(arr: number[]) {
+  const lastElm = arr.pop();
+  if (lastElm) {
+    return Math.max(lastElm, findMax(arr))
+  }
 }
 
 
